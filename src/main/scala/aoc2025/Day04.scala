@@ -8,14 +8,7 @@ object Day04 {
 
   case class State(char: Char)
 
-  case class Diagram(positions: Seq[Seq[State]]) {
-    def get(x: Int, y: Int): Option[State] =
-      if (x < 0 || y < 0 || x >= positions.length || y >= positions(0).length) {
-        None
-      } else {
-        Some(positions(x)(y))
-      }
-  }
+  case class Diagram(positions: Seq[Seq[State]])
 
   def parseInput(input: String): Seq[Seq[Char]] =
     input.trim
