@@ -25,34 +25,36 @@ object Day04 {
       .map(ArraySeq.from)
 
   def isAccessible(diagram: Array[Array[Char]], x: Int, y: Int): Boolean = {
-    var count = 0
-    for (i <- -1 to 1; j <- -1 to 1)
-      if (i != 0 || j != 0) {
-        val newX = x + i
-        val newY = y + j
-        if (newX >= 0 && newX < diagram.length && newY >= 0 && newY < diagram(0).length) {
-          val newState = diagram(newX)(newY)
-          if (newState == '@') {
-            count += 1
-          }
-        }
-      }
+    val count = (for {
+      i <- -1 to 1
+      j <- -1 to 1
+      if (i != 0 || j != 0)
+      newX = x + i
+      newY = y + j
+      if newX >= 0 && newX < diagram.length && newY >= 0 && newY < diagram(0).length
+      if diagram(newX)(newY) == '@'
+    } yield ()).length
     count < 4
   }
 
   def removeDiagram(diagram: Array[Array[Char]], changeDiagram: Boolean = false): (Array[Array[Char]], Int) = {
-    var count = 0
-    for {
+    val accessiblePositions = for {
       i <- diagram.indices
       j <- diagram(i).indices
       if diagram(i)(j) == '@' && isAccessible(diagram, i, j)
-    } {
-      if (changeDiagram) {
-        diagram(i)(j) = 'x'
-      }
-      count += 1
+    } yield (i, j)
+    
+    val count = accessiblePositions.length
+    
+    val newDiagram = if (changeDiagram) {
+      val result = diagram.map(_.clone)
+      accessiblePositions.foreach { case (i, j) => result(i)(j) = 'x' }
+      result
+    } else {
+      diagram
     }
-    (diagram, count)
+    
+    (newDiagram, count)
   }
 
   def part1(input: String): Int = {
