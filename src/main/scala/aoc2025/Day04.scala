@@ -21,7 +21,7 @@ object Day04 {
     val count = (for {
       i <- -1 to 1
       j <- -1 to 1
-      if (i != 0 || j != 0)
+      if i != 0 || j != 0
       newX = x + i
       newY = y + j
       if newX >= 0 && newX < diagram.length && newY >= 0 && newY < diagram(0).length
@@ -36,9 +36,9 @@ object Day04 {
       j <- diagram(i).indices
       if diagram(i)(j) == '@' && isAccessible(diagram, i, j)
     } yield (i, j)
-    
+
     val count = accessiblePositions.length
-    
+
     val newDiagram = if (changeDiagram) {
       val result = diagram.map(_.clone)
       accessiblePositions.foreach { case (i, j) => result(i)(j) = 'x' }
@@ -46,7 +46,7 @@ object Day04 {
     } else {
       diagram
     }
-    
+
     (newDiagram, count)
   }
 
