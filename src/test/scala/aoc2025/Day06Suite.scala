@@ -4,7 +4,7 @@ import Day06.*
 
 class Day06Suite extends munit.FunSuite {
 
-  val exampleInput = """
+  val exampleInput: String = """
                        |123 328  51 64 
                        | 45 64  387 23 
                        |  6 98  215 314
